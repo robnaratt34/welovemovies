@@ -6,14 +6,14 @@ async function movieExists(req, res, next) {
 
   if (foundMovie){
     res.locals.movie = foundMovie;
-    next()
+    return next()
   }
 
   next({ status: 404, message: "Movie cannot be found." });
 }
 
 async function read(req, res) {
-  res.json({ data: res.locals.movie });
+  res.json({ data: await service.read(req.params.movieId) });
 }
 
 async function getMoviesByTheaters(req,res) {

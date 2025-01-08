@@ -39,7 +39,7 @@ async function update(request, response) {
 }
 
 module.exports = {
-  destroy: [
+  delete: [
     noMovieIdInPath,
     asyncErrorBoundary(reviewExists),
     asyncErrorBoundary(destroy),
