@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 // Error handler
 app.use((error, req, res, next) => {
-  console.error(error);
+  // console.error(error);
   const { status = 500, message = "Something went wrong!" } = error;
   res.status(status).json({ error: message });
 });
