@@ -2,18 +2,22 @@ const service = require("./reviews.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 
-async function reviewExists(request, response, next) {
-  // TODO: Write your code here
-
-  next({ });
+async function reviewExists(req, res, next) {
+  const foundReview = await service.read(req.params.reviewId);
+  
+    if (foundReview){
+      return next()
+    }
+  
+    next({ status: 404, message: "Review cannot be found." });
 }
 
-async function destroy(request, response) {
-  // TODO: Write your code here
-
+async function destroy(req, res) {
+  await service.destroy(req.params.reviewId);
+  res.sendStatus(204)
 }
 
-async function list(request, response) {
+async function list(req, res) {
   // TODO: Write your code here
 
   response.json({  });
@@ -33,8 +37,14 @@ function noMovieIdInPath(request, response, next) {
   next();
 }
 
-async function update(request, response) {
-  // TODO: Write your code here
+async function update(req, res) {
+  const updatedReview = {
+    ...req.body.data,
+    review_id: req.params.reviewId,
+  }
+
+  const data = await service.update(updatedReview);
+  res.json({data: data})
 
 }
 
